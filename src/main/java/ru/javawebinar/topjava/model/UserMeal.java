@@ -4,7 +4,7 @@ import javax.jws.soap.SOAPBinding;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class UserMeal implements Comparable<UserMeal>{
+public class UserMeal {
     private final LocalDateTime dateTime;
     private final String description;
     private final int calories;
@@ -19,7 +19,9 @@ public class UserMeal implements Comparable<UserMeal>{
         return dateTime;
     }
 
-    public LocalDate getDate() {return dateTime.toLocalDate();}
+    public LocalDate getDate() {
+        return dateTime.toLocalDate();
+    }
 
     public String getDescription() {
         return description;
@@ -36,8 +38,5 @@ public class UserMeal implements Comparable<UserMeal>{
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
                 '}';
-    }
-    public int compareTo(UserMeal meal) {
-        return dateTime.compareTo(meal.dateTime); // call String's compareTo
     }
 }
