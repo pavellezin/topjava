@@ -1,0 +1,7 @@
+tr[data-excess="false"] {
+    color: green;
+}
+
+tr[data-excess="true"] {
+    color: red;
+}
