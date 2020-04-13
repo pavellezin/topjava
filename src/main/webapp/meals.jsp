@@ -24,7 +24,7 @@
     <tbody>
     <c:forEach items="${meals}" var="meal">
     <tr data-excess="<c:out value="${meal.excess}"/>">
-        <td><c:out value="${Dates.formatLocalDateTime(meal.dateTime)}"/></td>
+        <td><c:out value="${Dates.formatLocalDateTime(meal.dateTime, Dates.MEAL_LOCAL_DATE)}"/></td>
         <td><c:out value="${meal.description}"/></td>
         <td><c:out value="${meal.calories}"/></td>
         </c:forEach>

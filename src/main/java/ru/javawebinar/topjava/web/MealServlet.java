@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
-import ru.javawebinar.topjava.model.DemoMealList;
 import ru.javawebinar.topjava.model.MealTo;
+import ru.javawebinar.topjava.service.MealServiceImpl;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
@@ -20,12 +20,10 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug(">>Redirect to meals");
-        List<MealTo> mealToList = MealsUtil.filteredByStreams(DemoMealList.DEMO_MEALS, LocalTime.MIN, LocalTime.MAX, 2000);
+        List<MealTo> mealToList = MealsUtil.filteredByStreams(new MealServiceImpl().allMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
         request.setAttribute("meals",
                 mealToList);
-        request.setAttribute("size",
-                DemoMealList.DEMO_MEALS_SIZE);
+        log.debug(">>Redirect to meals");
         request.getRequestDispatcher("/meals.jsp").forward(request, response);
     }
 }

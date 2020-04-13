@@ -9,7 +9,7 @@ public class Dates {
 
     public static final DateTimeFormatter MEAL_LOCAL_DATE = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    public static String formatLocalDateTime(LocalDateTime localDateTime) {
-        return localDateTime.format(MEAL_LOCAL_DATE);
+    public static String formatLocalDateTime(LocalDateTime localDateTime, DateTimeFormatter formatter) {
+        return localDateTime.format(formatter);
     }
 }
