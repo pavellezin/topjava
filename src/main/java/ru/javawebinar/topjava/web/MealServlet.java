@@ -1,55 +1,63 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
+import ru.javawebinar.topjava.dao.DAO;
+import ru.javawebinar.topjava.dao.MemoryDAO;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.service.MealServiceImpl;
+import ru.javawebinar.topjava.util.Dates;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.Date;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
     private static String LIST_MEAL = "/meals.jsp";
-    private MealServiceImpl dao;
+    private DAO dao;
 
-    public MealServlet() {
-        super();
-        dao = new MealServiceImpl();
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        dao = new MemoryDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward;
-        String action = request.getParameter("action");
-
+        String action = request.getParameter("action").toLowerCase();
         String INSERT_OR_EDIT = "/meal.jsp";
-        if (action.equalsIgnoreCase("delete")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            dao.delete(dao.getById(id));
-            forward = LIST_MEAL;
-            request.setAttribute("meals", MealsUtil.filteredByStreams(dao.allMeals(), LocalTime.MIN, LocalTime.MAX, 2000));
-        } else if (action.equalsIgnoreCase("edit")) {
-            forward = INSERT_OR_EDIT;
-            int id = Integer.parseInt(request.getParameter("id"));
-            Meal meal = dao.getById(id);
-            request.setAttribute("meal", meal);
-        } else if (action.equalsIgnoreCase("listMeals")) {
-            forward = LIST_MEAL;
-            request.setAttribute("meals", MealsUtil.filteredByStreams(dao.allMeals(), LocalTime.MIN, LocalTime.MAX, 2000));
-        } else {
-            forward = INSERT_OR_EDIT;
+        int id;
+
+        switch (action) {
+            case "delete":
+                id = Integer.parseInt(request.getParameter("id"));
+                dao.delete(id);
+                log.debug(">>Delete item id=" + id);
+                forward = LIST_MEAL;
+                request.setAttribute("meals", MealsUtil.filteredByStreams(dao.all(), LocalTime.MIN, LocalTime.MAX, 2000));
+                break;
+            case "edit":
+                forward = INSERT_OR_EDIT;
+                id = Integer.parseInt(request.getParameter("id"));
+                Meal meal = dao.getById(id);
+                request.setAttribute("meal", meal);
+                break;
+            case "listmeals":
+                forward = LIST_MEAL;
+                log.debug(">>List all items");
+                request.setAttribute("meals", MealsUtil.filteredByStreams(dao.all(), LocalTime.MIN, LocalTime.MAX, 2000));
+                break;
+            default:
+                forward = INSERT_OR_EDIT;
         }
 
         RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -62,21 +70,21 @@ public class MealServlet extends HttpServlet {
         Meal meal = new Meal();
         meal.setDescription(request.getParameter("description"));
         meal.setCalories(Integer.parseInt(request.getParameter("calories")));
-        try {
-            Date dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("dateTime"));
-            meal.setDateTime(dateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String id = request.getParameter("id");
-        if (id == null || id.isEmpty()) {
+        meal.setDateTime(LocalDateTime.parse(request.getParameter("dateTime"), Dates.MEAL_FORMATTER));
+        log.debug(">>meal=" + meal);
+
+        String mealId = request.getParameter("id");
+        log.debug(">>meal id=" + mealId);
+        if (mealId == null || mealId.isEmpty()) {
             dao.add(meal);
+            log.debug(">>Add new item, id=" + mealId);
         } else {
-            meal.setId(Integer.parseInt(id));
+            meal.setId(Integer.parseInt(mealId));
             dao.edit(meal);
+            log.debug(">>Edit item id=" + mealId);
         }
         RequestDispatcher view = request.getRequestDispatcher(LIST_MEAL);
-        request.setAttribute("meals", MealsUtil.filteredByStreams(dao.allMeals(), LocalTime.MIN, LocalTime.MAX, 2000));
+        request.setAttribute("meals", MealsUtil.filteredByStreams(dao.all(), LocalTime.MIN, LocalTime.MAX, 2000));
         log.debug(">>Redirect from Post");
         view.forward(request, response);
     }

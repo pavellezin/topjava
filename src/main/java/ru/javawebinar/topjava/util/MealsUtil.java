@@ -26,6 +26,23 @@ public class MealsUtil {
 
         List<MealTo> mealsTo = filteredByStreams(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsTo.forEach(System.out::println);
+        String item = "one1";
+        String res;
+        switch (item) {
+            case "delete":
+                res = "1";
+                break;
+            case "edit":
+                res = "2";
+                break;
+            case "listMeals":
+                res = "3";
+                break;
+            default:
+                res = "default";
+        }
+        ;
+        System.out.println("res = " + res);
     }
 
     public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
