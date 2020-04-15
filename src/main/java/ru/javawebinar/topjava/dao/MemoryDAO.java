@@ -1,9 +1,6 @@
 package ru.javawebinar.topjava.dao;
 
-import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.web.MealServlet;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -13,7 +10,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.slf4j.LoggerFactory.getLogger;
 
 public class MemoryDAO implements DAO {
     private AtomicInteger AUTO_ID = new AtomicInteger(0);
@@ -28,7 +24,6 @@ public class MemoryDAO implements DAO {
         add(new Meal(5, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500));
         add(new Meal(6, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410));
     }
-    private static final Logger log = getLogger(MealServlet.class);
 
     @Override
     public List<Meal> all() {
@@ -37,9 +32,7 @@ public class MemoryDAO implements DAO {
 
     @Override
     public Meal add(Meal meal) {
-//        if (meal.isNew()) {
-            meal.setId(AUTO_ID.incrementAndGet());
-//        }
+        meal.setId(AUTO_ID.incrementAndGet());
         return dao.put(meal.getId(), meal);
     }
 

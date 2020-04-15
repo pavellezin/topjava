@@ -10,19 +10,13 @@
 <hr>
 <form action="${var}" method="POST">
     <input type="hidden" name="id" value="<c:out value="${meal.id}"/>">
-    <c:if test="${!empty meal.id}">
-        <c:set var="dateTime" scope="request"
-               value="${Dates.formatLocalDateTime(meal.dateTime, Dates.MEAL_FORMATTER)}"/>
-        <c:set var="description" scope="request" value="${meal.description}"/>
-        <c:set var="calories" scope="request" value="${meal.calories}"/>
-    </c:if>
     <label for="dateTime">Дата/Время</label>
-    <input type="text" name="dateTime" id="dateTime" value="<c:out value="${not empty meal.id ? dateTime : ''}" />">
+    <input type="text" name="dateTime" id="dateTime" value="<c:out value="${not empty meal.id ? Dates.formatLocalDateTime(meal.dateTime, Dates.MEAL_FORMATTER) : ''}" />">
     <label for="description">Описание</label>
     <input type="text" name="description" id="description"
-           value="<c:out value="${not empty meal.id ? description : ''}" />">
+           value="<c:out value="${not empty meal.id ? meal.description : ''}" />">
     <label for="calories">Калории</label>
-    <input type="text" name="calories" id="calories" value="<c:out value="${not empty meal.id ? calories : ''}" />">
+    <input type="text" name="calories" id="calories" value="<c:out value="${not empty meal.id ? meal.calories : ''}" />">
     <input type="submit" value="<c:out value="${not empty meal.id ? 'Редактировать' : 'Добавить'}"/>">
 </form>
 </body>

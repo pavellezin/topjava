@@ -25,7 +25,7 @@ public class Meal {
     }
 
     public Integer getId() {
-        return (id == null ? null : id);
+        return id;
     }
 
     public void setId(Integer id) {
@@ -62,10 +62,6 @@ public class Meal {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
-    }
-
-    public boolean isNew() {
-        return (id == null);
     }
 
     @Override

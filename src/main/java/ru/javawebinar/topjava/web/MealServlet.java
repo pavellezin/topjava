@@ -33,7 +33,8 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward;
-        String action = request.getParameter("action").toLowerCase();
+        String action = request.getParameter("action");
+        action = ((action == null) ? "listmeals" : action.toLowerCase());
         String INSERT_OR_EDIT = "/meal.jsp";
         int id;
 
@@ -42,27 +43,27 @@ public class MealServlet extends HttpServlet {
                 id = Integer.parseInt(request.getParameter("id"));
                 dao.delete(id);
                 log.debug(">>Delete item id=" + id);
-                forward = LIST_MEAL;
+//                forward = LIST_MEAL;
                 request.setAttribute("meals", MealsUtil.filteredByStreams(dao.all(), LocalTime.MIN, LocalTime.MAX, 2000));
+                response.sendRedirect("meals");
                 break;
             case "edit":
                 forward = INSERT_OR_EDIT;
                 id = Integer.parseInt(request.getParameter("id"));
                 Meal meal = dao.getById(id);
                 request.setAttribute("meal", meal);
+                request.getRequestDispatcher(forward).forward(request, response);
                 break;
             case "listmeals":
                 forward = LIST_MEAL;
                 log.debug(">>List all items");
                 request.setAttribute("meals", MealsUtil.filteredByStreams(dao.all(), LocalTime.MIN, LocalTime.MAX, 2000));
+                request.getRequestDispatcher(forward).forward(request, response);
                 break;
             default:
                 forward = INSERT_OR_EDIT;
+                request.getRequestDispatcher(forward).forward(request, response);
         }
-
-        RequestDispatcher view = request.getRequestDispatcher(forward);
-        log.debug(">>Redirect from Get, forward=" + forward);
-        view.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

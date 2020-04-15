@@ -1,18 +1,15 @@
-<%@ page import="java.util.List" %>
-<%@ page import="ru.javawebinar.topjava.model.MealTo" %>
 <%@ page import="ru.javawebinar.topjava.util.Dates" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
     <title>Meals</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<c:url value="/meals" var="var"/>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<%
-    List<MealTo> meals = (List<MealTo>) request.getAttribute("meals");
-%>
 <table style="width: 1000px;">
     <thead>
     <tr>
