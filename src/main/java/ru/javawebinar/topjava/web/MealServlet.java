@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.repository.inmemory.InMemoryMealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.ValidationUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -51,15 +52,16 @@ public class MealServlet extends HttpServlet {
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);
-                log.info("Delete {}", id);
+                ValidationUtil.checkNotFoundWithId(repository.get(id) != null && repository.get(id).getUserId().equals(MealsUtil.CURRENT_USER), id);
                 repository.delete(id);
+                log.info("Delete {}", id);
                 response.sendRedirect("meals");
                 break;
             case "create":
             case "update":
                 final Meal meal = "create".equals(action) ?
                         new Meal(MealsUtil.CURRENT_USER, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        repository.get(getId(request));
+                        ValidationUtil.checkNotFoundWithId(repository.get(getId(request)) != null && repository.get(getId(request)).getUserId().equals(MealsUtil.CURRENT_USER) ? repository.get(getId(request)) : null, getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
                 break;
