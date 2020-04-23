@@ -1,12 +1,13 @@
 package ru.javawebinar.topjava.model;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
-public class User extends AbstractNamedEntity implements Comparable<User>{
+public class User extends AbstractNamedEntity {
 
     private String email;
 
@@ -89,8 +90,7 @@ public class User extends AbstractNamedEntity implements Comparable<User>{
                 ')';
     }
 
-    @Override
-    public int compareTo(User o) {
-        return this.getName().compareTo(o.getName());
-    }
+    public static final Comparator<User> COMPARE_BY_ID = Comparator.comparingInt(AbstractBaseEntity::getId);
+
+    public static final Comparator<User> COMPARE_BY_NAME = Comparator.comparing(AbstractNamedEntity::getName);
 }

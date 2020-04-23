@@ -16,6 +16,7 @@ public class UsersUtil {
 
     public static final List<User> USERS = Arrays.asList(
             new User(null, "Admin", "admin@mail.com", "admin", Role.ROLE_ADMIN, Role.values()),
-            new User(null, "User", "user@mail.com", "user", Role.ROLE_USER, Role.ROLE_USER)
+            new User(null, "User", "user@mail.com", "user", Role.ROLE_USER, Role.ROLE_USER),
+            new User(null, "Admin", "admin@mail.com", "admin", Role.ROLE_ADMIN, Role.values())
     );
 }

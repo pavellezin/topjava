@@ -3,8 +3,9 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Comparator;
 
-public class Meal extends AbstractBaseEntity implements Comparable<Meal>{
+public class Meal extends AbstractBaseEntity {
     private Integer userId;
 
     private final LocalDateTime dateTime;
@@ -25,9 +26,7 @@ public class Meal extends AbstractBaseEntity implements Comparable<Meal>{
         this.calories = calories;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
+    public Integer getUserId() { return userId; }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
@@ -67,8 +66,5 @@ public class Meal extends AbstractBaseEntity implements Comparable<Meal>{
                 '}';
     }
 
-    @Override
-    public int compareTo(Meal o) {
-        return o.getDateTime().compareTo(this.getDateTime());
-    }
+    public static final Comparator<Meal> COMPARE_BY_TIME = (l, r) -> r.getDateTime().compareTo(l.getDateTime());
 }

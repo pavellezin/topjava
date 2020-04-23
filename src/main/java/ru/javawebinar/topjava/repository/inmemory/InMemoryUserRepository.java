@@ -7,12 +7,9 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.UsersUtil;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryUserRepository implements UserRepository {
@@ -52,8 +49,9 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        List<User> users = Collections.list(Collections.enumeration(repository.values()));
-        users.sort(User::compareTo);
+        List<User> users = new ArrayList<>(repository.values());
+        Collections.sort(users, User.COMPARE_BY_ID);
+        Collections.sort(users, User.COMPARE_BY_NAME);
         log.info("getAll {}", users);
         return users;
     }
@@ -61,7 +59,6 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
-        List<User> users = Collections.list(Collections.enumeration(repository.values()));
-        return (users.stream().anyMatch(n -> n.getEmail().equals(email)) ? users.stream().filter(n -> n.getEmail().equals(email)).limit(1).collect(Collectors.toList()).get(0) : null);
+        return repository.values().stream().filter(n -> n.getEmail().equals(email)).findFirst().orElse(null);
     }
 }
