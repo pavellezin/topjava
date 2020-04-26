@@ -89,8 +89,4 @@ public class User extends AbstractNamedEntity {
                 ", caloriesPerDay=" + caloriesPerDay +
                 ')';
     }
-
-    public static final Comparator<User> COMPARE_BY_ID = Comparator.comparingInt(AbstractBaseEntity::getId);
-
-    public static final Comparator<User> COMPARE_BY_NAME = Comparator.comparing(AbstractNamedEntity::getName);
 }

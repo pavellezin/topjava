@@ -33,6 +33,7 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
+        String user = request.getParameter("active_user");
 
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
                 MealsUtil.CURRENT_USER,
@@ -48,6 +49,7 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        String user = request.getParameter("active_user");
 
         switch (action == null ? "all" : action) {
             case "delete":
