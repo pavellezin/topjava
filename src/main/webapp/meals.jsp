@@ -6,21 +6,41 @@
 <html>
 <head>
     <title>Meal list</title>
-    <style>
-        .normal {
-            color: green;
-        }
-
-        .excess {
-            color: red;
-        }
-    </style>
+    <link href="/topjava/css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
+    <form method="get" action="meals">
+        <div>
+            <input type="hidden" id="filter" name="action" value="filter">
+            <table>
+                <tr>
+                    <td>
+                        <label for="sday">Start date:</label>
+                        <input type="date" id="sday" name="sday" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                    </td>
+                    <td>
+                        <label for="eday">End date:</label>
+                        <input type="date" id="eday" name="eday" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                    </td>
+                    <td>
+                        <label for="stime">Start time:</label>
+                        <input type="time" id="stime" name="stime" pattern="[0-24]{2}:[0-59]{2}">
+                    </td>
+                    <td>
+                        <label for="etime">End time:</label>
+                        <input type="time" id="etime" name="etime" pattern="[0-24]{2}:[0-59]{2}">
+                    </td>
+                    <span class="validity"></span>
+                </tr>
+            </table>
+            <button type="submit">Filter</button>
+        </div>
+
+    </form>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">

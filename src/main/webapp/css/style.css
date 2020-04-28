@@ -1,0 +1,16 @@
+label {
+    display: block;
+    font: .8rem 'Fira Sans', sans-serif;
+}
+
+input,
+label {
+    margin: .4rem 0;
+}
+.normal {
+    color: green;
+}
+
+.excess {
+    color: red;
+}

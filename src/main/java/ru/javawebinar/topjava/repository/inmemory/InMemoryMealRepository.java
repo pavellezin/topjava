@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.inmemory;
 
+import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -13,16 +14,16 @@ import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.*;
 
+@Repository
 public class InMemoryMealRepository implements MealRepository {
     private Map<Integer, Map<Integer, Meal>> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
     public static final Comparator<Meal> COMPARE_BY_TIME = (l, r) -> r.getDateTime().compareTo(l.getDateTime());
 
     {
-        MealsUtil.MEALS.forEach(m -> save(m, ADMIN_ID));
-        save(new Meal(LocalDateTime.of(2020, 04, 24, 8, 0), "Завтрак", 500), 2);
-        save(new Meal(LocalDateTime.of(2020, 04, 24, 12, 0), "Обед", 1500), 2);
-
+        MealsUtil.MEALS.forEach(m -> save(m, USER_ID));
+        save(new Meal(LocalDateTime.of(2020, 04, 24, 8, 0), "Завтрак", 500), ADMIN_ID);
+        save(new Meal(LocalDateTime.of(2020, 04, 24, 12, 0), "Обед", 1500), ADMIN_ID);
     }
 
     @Override
@@ -55,9 +56,9 @@ public class InMemoryMealRepository implements MealRepository {
         List<Meal> mealsValues = new ArrayList<>(meals.values());
         return mealsValues.equals(null) ?
                 Collections.emptyList() :
-                    mealsValues.stream()
-                            .sorted(COMPARE_BY_TIME)
-                            .collect(Collectors.toList());
+                mealsValues.stream()
+                        .sorted(COMPARE_BY_TIME)
+                        .collect(Collectors.toList());
     }
 
     @Override
@@ -66,10 +67,10 @@ public class InMemoryMealRepository implements MealRepository {
         List<Meal> mealsValues = new ArrayList<>(meals.values());
         return mealsValues.equals(null) ?
                 Collections.emptyList() :
-                    mealsValues.stream()
-                            .filter(m -> Util.isBetweenHalfOpen(m.getDateTime(), start, end))
-                            .sorted(COMPARE_BY_TIME)
-                            .collect(Collectors.toList());
+                mealsValues.stream()
+                        .filter(m -> Util.isBetweenHalfOpen(m.getDateTime(), start, end))
+                        .sorted(COMPARE_BY_TIME)
+                        .collect(Collectors.toList());
     }
 
 }

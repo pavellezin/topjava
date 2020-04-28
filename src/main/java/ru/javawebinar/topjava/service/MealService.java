@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -17,7 +16,6 @@ public class MealService {
 
     private MealRepository repository;
 
-    @Autowired
     public MealService(MealRepository mealRepository) {
         this.repository = mealRepository;
     }
@@ -42,7 +40,7 @@ public class MealService {
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
-    public List<Meal> getBetweenHalfOpen(LocalDate startDate, LocalDate endDate, int userId){
+    public List<Meal> getBetweenHalfOpen(LocalDate startDate, LocalDate endDate, int userId) {
         return repository.isBetweenHalfOpen(DateTimeUtil.getStartInclusive(startDate), DateTimeUtil.getEndExclusive(endDate), userId);
     }
 }

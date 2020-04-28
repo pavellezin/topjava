@@ -2,17 +2,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Java Enterprise (Topjava)</title>
+    <link href="/topjava/css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <h3>Проект <a href="https://github.com/JavaWebinar/topjava" target="_blank">Java Enterprise (Topjava)</a></h3>
 <hr>
 <p>Select user:</p>
-<form method="post" action="#">
-    <select name="active_user" id="active_user">
-        <option value="admin">Admin</option>
-        <option value="user">User</option>
-    </select>
+<form action="meals" method="get" name="user-select">
+    <p><select name="user" required label="Select User">
+        <option value="1">admin</option>
+        <option value="2">user</option>
+    </select></p>
+    <p><input type="submit" value="Select"></p>
 </form>
+
 <ul>
     <li><a href="users">Users</a></li>
     <li><a href="meals">Meals</a></li>
