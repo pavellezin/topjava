@@ -54,7 +54,6 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        String authUserId = request.getParameter("user");
 
         switch (action == null ? "all" : action) {
             case "delete":
@@ -83,7 +82,6 @@ public class MealServlet extends HttpServlet {
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
             case "all":
             default:
-                if (authUserId != null) SecurityUtil.setUserId(Integer.parseInt(authUserId));
                 request.setAttribute("meals", mealController.getAll());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;

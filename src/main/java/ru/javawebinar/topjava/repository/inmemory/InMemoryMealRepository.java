@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.*;
@@ -22,8 +23,8 @@ public class InMemoryMealRepository implements MealRepository {
 
     {
         MealsUtil.MEALS.forEach(m -> save(m, USER_ID));
-        save(new Meal(LocalDateTime.of(2020, 04, 24, 8, 0), "Завтрак", 500), ADMIN_ID);
-        save(new Meal(LocalDateTime.of(2020, 04, 24, 12, 0), "Обед", 1500), ADMIN_ID);
+        save(new Meal(LocalDateTime.of(2020, 4, 24, 8, 0), "Завтрак", 500), ADMIN_ID);
+        save(new Meal(LocalDateTime.of(2020, 4, 24, 12, 0), "Обед", 1500), ADMIN_ID);
     }
 
     @Override
@@ -47,28 +48,26 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Meal get(int id, int userId) {
         Map<Integer, Meal> meals = repository.get(userId);
-        return meals.equals(null) ? null : meals.getOrDefault(id, null);
+        return meals == null ? null : meals.get(id);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        Map<Integer, Meal> meals = repository.get(userId);
-        List<Meal> mealsValues = new ArrayList<>(meals.values());
-        return mealsValues.equals(null) ?
-                Collections.emptyList() :
-                mealsValues.stream()
-                        .sorted(COMPARE_BY_TIME)
-                        .collect(Collectors.toList());
+        return getFilteredMealForUser(userId, meal -> true);
     }
 
     @Override
     public List<Meal> isBetweenHalfOpen(LocalDateTime start, LocalDateTime end, int userId) {
+        return getFilteredMealForUser(userId, meal -> Util.isBetweenHalfOpen(meal.getDateTime(), start, end));
+    }
+
+    public List<Meal> getFilteredMealForUser(int userId, Predicate<Meal> filter){
         Map<Integer, Meal> meals = repository.get(userId);
         List<Meal> mealsValues = new ArrayList<>(meals.values());
-        return mealsValues.equals(null) ?
+        return mealsValues == null ?
                 Collections.emptyList() :
                 mealsValues.stream()
-                        .filter(m -> Util.isBetweenHalfOpen(m.getDateTime(), start, end))
+                        .filter(filter)
                         .sorted(COMPARE_BY_TIME)
                         .collect(Collectors.toList());
     }
