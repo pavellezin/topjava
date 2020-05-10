@@ -1,5 +1,6 @@
-package ru.javawebinar.topjava;
+package ru.javawebinar.topjava.web.user;
 
+import org.assertj.core.api.Assertions;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 
@@ -29,7 +30,7 @@ public class UserTestData {
     }
 
     public static void assertMatch(User actual, User expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "roles");
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "roles");
     }
 
     public static void assertMatch(Iterable<User> actual, User... expected) {
@@ -37,6 +38,6 @@ public class UserTestData {
     }
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("registered", "roles").isEqualTo(expected);
+        Assertions.assertThat(actual).usingElementComparatorIgnoringFields("registered", "roles").isEqualTo(expected);
     }
 }
