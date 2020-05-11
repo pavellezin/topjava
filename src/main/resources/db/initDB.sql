@@ -25,7 +25,7 @@ CREATE TABLE user_roles
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-create table meals
+CREATE TABLE meals
 (
     id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     user_id     INTEGER                     NOT NULL,
