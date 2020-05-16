@@ -1,17 +1,16 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
-import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.meal.MealTestData;
 
 import java.time.LocalDate;
@@ -19,7 +18,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static ru.javawebinar.topjava.web.meal.MealTestData.*;
-import static ru.javawebinar.topjava.web.user.UserTestData.*;
+import static ru.javawebinar.topjava.web.user.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.web.user.UserTestData.USER_ID;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml"
@@ -30,13 +30,8 @@ import static ru.javawebinar.topjava.web.user.UserTestData.*;
 public class MealServiceTest {
 
     static {
-        // Only for postgres driver logging
-        // It uses java.util.logging and logged via jul-to-slf4j bridge
         SLF4JBridgeHandler.install();
     }
-
-    private static ConfigurableApplicationContext appCtx;
-    private static MealRestController controller;
 
     @Autowired
     private MealService service;
@@ -47,40 +42,29 @@ public class MealServiceTest {
         Meal created = service.create(newMeal, USER_ID);
         Integer newId = created.getId();
         newMeal.setId(newId);
-        MealTestData.assertMealEquals(created, newMeal);
-        MealTestData.assertMealEquals(service.get(newId, USER_ID), newMeal);
+        MEAL_MATCHER.assertMatch(created, newMeal);
+        MEAL_MATCHER.assertMatch(service.get(newId, USER_ID), newMeal);
     }
 
     @Test
     public void get() {
-        Meal newMeal = MealTestData.getNew();
-        Meal created = service.create(newMeal, USER_ID);
-        Integer createdId = created.getId();
-        Meal actual = service.get(createdId, USER_ID);
-        MealTestData.assertMealEquals(created, actual);
+        Meal actual = service.get(USER_MEAL_ID + 5, USER_ID);
+        MEAL_MATCHER.assertMatch(actual, USER_MEAL6);
     }
 
     @Test(expected = NotFoundException.class)
     public void getNotFound() throws Exception {
-        Meal newMeal = MealTestData.getNew();
-        Meal adminMeal = service.create(newMeal, ADMIN_ID);
-        Integer adminMealId = adminMeal.getId();
-        service.get(adminMealId + 100, ADMIN_ID);
+        service.get(ADMIN_ID + 100, ADMIN_ID);
     }
 
     @Test(expected = NotFoundException.class)
     public void deleteAnotherUserMeal() throws Exception {
-        Meal userMeal = service.create(USER_MEAL, USER_ID);
-        Integer userMealId = userMeal.getId();
-        service.delete(userMealId, ADMIN_ID);
+        service.delete(USER_MEAL_ID, ADMIN_ID);
     }
 
     @Test(expected = NotFoundException.class)
     public void deletedNotFound() throws Exception {
-        Meal newMeal = MealTestData.getNew();
-        Meal adminMeal = service.create(newMeal, ADMIN_ID);
-        Integer adminMealId = adminMeal.getId();
-        service.delete(adminMealId + 100, ADMIN_ID);
+        service.delete(ADMIN_MEAL_ID + 100, ADMIN_ID);
     }
 
     @Test
@@ -94,31 +78,24 @@ public class MealServiceTest {
 
     @Test
     public void getAll() {
-        List<Meal> all = service.getAll(ADMIN_ID);
-        Assert.assertEquals(2, all.size());
-        Meal adminMeal = service.create(ADMIN_MEAL, ADMIN_ID);
-        Integer id = adminMeal.getId();
-        all = service.getAll(ADMIN_ID);
-        Assert.assertEquals(3, all.size());
-        service.delete(id, ADMIN_ID);
-        all = service.getAll(ADMIN_ID);
-        Assert.assertEquals(2, all.size());
+        List<Meal> all = service.getAll(USER_ID);
+        Assert.assertEquals(7, all.size());
+        MEAL_MATCHER.assertMatch(all, MEALS);
     }
 
     @Test
     public void update() throws Exception {
-        Meal created = service.create(USER_MEAL, USER_ID);
+        Meal created = MealTestData.getNew();
+        service.create(created, USER_ID);
         Integer createdId = created.getId();
         MealTestData.getUpdated(created);
         service.update(created, USER_ID);
         Meal updated = service.get(createdId, USER_ID);
-        MealTestData.assertMealEquals(updated, created);
+        MEAL_MATCHER.assertMatch(updated, created);
     }
 
     @Test(expected = NotFoundException.class)
     public void updatedNotFound() throws Exception {
-        Meal created = service.create(USER_MEAL, USER_ID);
-        MealTestData.getUpdated(created);
-        service.update(created, ADMIN_ID);
+        service.update(USER_MEAL3, ADMIN_ID);
     }
 }
