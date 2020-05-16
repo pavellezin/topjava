@@ -6,6 +6,8 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -20,11 +22,11 @@ import static ru.javawebinar.topjava.web.meal.MealTestData.*;
 import static ru.javawebinar.topjava.web.user.UserTestData.*;
 
 @ContextConfiguration({
-        "classpath:spring/spring-test-app.xml"
-//        , "classpath:spring/spring-db.xml"
+        "classpath:spring/spring-app.xml"
+        , "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringRunner.class)
-//@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
     static {
