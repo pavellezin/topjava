@@ -11,7 +11,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
-import ru.javawebinar.topjava.web.meal.MealTestData;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -38,18 +37,18 @@ public class MealServiceTest {
 
     @Test
     public void create() throws Exception {
-        Meal newMeal = MealTestData.getNew();
+        Meal newMeal = getNew();
         Meal created = service.create(newMeal, USER_ID);
         Integer newId = created.getId();
         newMeal.setId(newId);
-        MEAL_MATCHER.assertMatch(created, newMeal);
-        MEAL_MATCHER.assertMatch(service.get(newId, USER_ID), newMeal);
+        assertMatch(created, newMeal);
+        assertMatch(service.get(newId, USER_ID), newMeal);
     }
 
     @Test
     public void get() {
         Meal actual = service.get(USER_MEAL_ID + 5, USER_ID);
-        MEAL_MATCHER.assertMatch(actual, USER_MEAL6);
+        assertMatch(actual, USER_MEAL6);
     }
 
     @Test(expected = NotFoundException.class)
@@ -78,20 +77,22 @@ public class MealServiceTest {
 
     @Test
     public void getAll() {
-        List<Meal> all = service.getAll(USER_ID);
-        Assert.assertEquals(7, all.size());
-        MEAL_MATCHER.assertMatch(all, MEALS);
+        List<Meal> all = service.getAll(ADMIN_ID);
+        Assert.assertEquals(2, all.size());
+        assertMatch(all, ADMIN_MEAL2, ADMIN_MEAL1);
+        all = service.getAll(USER_ID);
+        assertMatch(all, MEALS);
     }
 
     @Test
     public void update() throws Exception {
-        Meal created = MealTestData.getNew();
+        Meal created = getNew();
         service.create(created, USER_ID);
         Integer createdId = created.getId();
-        MealTestData.getUpdated(created);
+        getUpdated(created);
         service.update(created, USER_ID);
         Meal updated = service.get(createdId, USER_ID);
-        MEAL_MATCHER.assertMatch(updated, created);
+        assertMatch(updated, created);
     }
 
     @Test(expected = NotFoundException.class)

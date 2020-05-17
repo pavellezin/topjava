@@ -1,6 +1,6 @@
 package ru.javawebinar.topjava.web.meal;
 
-import ru.javawebinar.topjava.TestMatcher;
+import org.assertj.core.api.Assertions;
 import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
@@ -37,6 +37,15 @@ public class MealTestData {
         return meal;
     }
 
-    public static TestMatcher<Meal> MEAL_MATCHER = TestMatcher.of();
+    public static void assertMatch(Meal actual, Meal expected) {
+        Assertions.assertThat(actual).isEqualToComparingFieldByField(expected);
+    }
 
+    public static void assertMatch(Iterable<Meal> actual, Meal... expected) {
+        assertMatch(actual, Arrays.asList(expected));
+    }
+
+    public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
+        Assertions.assertThat(actual).usingFieldByFieldElementComparator().isEqualTo(expected);
+    }
 }
