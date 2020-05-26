@@ -33,5 +33,5 @@ public class MealTestData {
         return new Meal(MEAL1_ID, MEAL1.getDateTime(), "Обновленный завтрак", 200);
     }
 
-    public static TestMatcher<Meal> MEAL_MATCHER = TestMatcher.of();
+    public static TestMatcher<Meal> MEAL_MATCHER = TestMatcher.of("user");
 }
