@@ -13,37 +13,28 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-@Transactional
+@Transactional(readOnly = true)
 public class JpaMealRepository implements MealRepository {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
+    @Transactional
     public Meal save(Meal meal, int userId) {
-        User id = meal.getUser();
         User ref = em.getReference(User.class, userId);
         meal.setUser(ref);
         if (meal.isNew()) {
             em.persist(meal);
             return meal;
         } else {
-            int i = em.createNamedQuery(Meal.UPDATE)
-                    .setParameter("dateTime", meal.getDateTime())
-                    .setParameter("description", meal.getDescription())
-                    .setParameter("calories", meal.getCalories())
-                    .setParameter("id", meal.getId())
-                    .setParameter("userId", userId)
-                    .executeUpdate();
-            if (i == 0) {
-                return null;
-            }
-            return meal;
+            return (get(meal.getId(), userId) == null) ? null : em.merge(meal);
         }
 
     }
 
     @Override
+    @Transactional
     public boolean delete(int id, int userId) {
         return em.createNamedQuery(Meal.DELETE)
                 .setParameter("id", id)
@@ -53,11 +44,8 @@ public class JpaMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        return em.createNamedQuery(Meal.GET, Meal.class)
-                .setParameter("id", id)
-                .setParameter("userId", userId)
-                .getResultList()
-                .stream().findFirst().orElse(null);
+        Meal meal = em.find(Meal.class, id);
+        return ((meal == null) || (meal.getUser().getId() != userId)) ? null : meal;
     }
 
     @Override

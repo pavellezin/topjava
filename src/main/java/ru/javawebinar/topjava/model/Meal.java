@@ -4,21 +4,13 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @NamedQueries({
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m"
-                + " WHERE m.id=:id"
-                + " AND m.user.id=:userId"),
-        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m"
-                + " WHERE m.id=:id"
-                + " AND m.user.id=:userId"),
-        @NamedQuery(name = Meal.UPDATE, query = "UPDATE Meal m SET"
-                + " m.dateTime=:dateTime,"
-                + " m.description=:description,"
-                + " m.calories=:calories"
                 + " WHERE m.id=:id"
                 + " AND m.user.id=:userId"),
         @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m"
@@ -37,16 +29,16 @@ import java.time.LocalTime;
 public class Meal extends AbstractBaseEntity {
 
     public static final String DELETE = "Meal.delete";
-    public static final String GET = "Meal.get";
-    public static final String UPDATE = "Meal.update";
     public static final String ALL_SORTED = "Meal.getAllSorted";
     public static final String BETWEEN = "Meal.getBetween";
 
     @Column(name = "date_time", nullable = false, unique = true, columnDefinition = "timestamp")
+    @NotNull
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
     @NotNull
+    @Size(max = 100)
     private String description;
 
     @Column(name = "calories", nullable = false, columnDefinition = "int")
