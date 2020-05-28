@@ -32,7 +32,7 @@ public class Meal extends AbstractBaseEntity {
     public static final String ALL_SORTED = "Meal.getAllSorted";
     public static final String BETWEEN = "Meal.getBetween";
 
-    @Column(name = "date_time", nullable = false, unique = true, columnDefinition = "timestamp")
+    @Column(name = "date_time", nullable = false, columnDefinition = "timestamp")
     @NotNull
     private LocalDateTime dateTime;
 
