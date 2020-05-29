@@ -7,7 +7,9 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%d{HH:mm:ss.SSS} %-5level %class{50}.%M:%L - %msg%n</pattern>
+            <!--            <pattern>%d{HH:mm:ss.SSS} %-5level %class{50}.%M:%L - %msg%n</pattern>-->
+            <pattern>%yellow(%d{HH:mm:ss.SSS}) %highlight(%-5level) %class{50}.%M:%L %cyan(%logger{15}) - %highlight(%msg%n)</pattern>
+            <!--            <pattern>%yellow(%date{HH:mm:ss.SSS}) %highlight(%-5level) [%-10.10thread] [%account] %highlight(%-130msg) [at %class.%method\(%file:%line\)]%n%throwable</pattern>-->
         </encoder>
     </appender>
 
