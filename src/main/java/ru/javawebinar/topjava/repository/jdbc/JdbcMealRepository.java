@@ -29,8 +29,9 @@ public abstract class JdbcMealRepository<T> implements MealRepository {
 
     private final SimpleJdbcInsert insertMeal;
 
-    @Autowired
-    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    //    @Autowired
+//    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
@@ -43,7 +44,7 @@ public abstract class JdbcMealRepository<T> implements MealRepository {
 
     @Repository
     @Profile(Profiles.POSTGRES_DB)
-    public static class LocalDateTimeMealRepository extends JdbcMealRepository<LocalDateTime>{
+    public static class LocalDateTimeMealRepository extends JdbcMealRepository<LocalDateTime> {
 
         public LocalDateTimeMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
             super(jdbcTemplate, namedParameterJdbcTemplate);
@@ -54,9 +55,10 @@ public abstract class JdbcMealRepository<T> implements MealRepository {
             return ldt;
         }
     }
+
     @Repository
     @Profile(Profiles.HSQL_DB)
-    public static class TimeStampMealRepository extends JdbcMealRepository<Timestamp>{
+    public static class TimeStampMealRepository extends JdbcMealRepository<Timestamp> {
 
         public TimeStampMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
             super(jdbcTemplate, namedParameterJdbcTemplate);
