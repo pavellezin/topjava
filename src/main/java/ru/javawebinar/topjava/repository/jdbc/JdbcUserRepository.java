@@ -71,4 +71,9 @@ public class JdbcUserRepository implements UserRepository {
     public List<User> getAll() {
         return jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
     }
+
+    @Override
+    public User getWithMeals(int id) {
+        return null;
+    }
 }

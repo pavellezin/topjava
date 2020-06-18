@@ -19,5 +19,5 @@ public interface UserRepository {
 
     List<User> getAll();
 
-//    User getWithMeals(int userId);
+    User getWithMeals(int id);
 }
