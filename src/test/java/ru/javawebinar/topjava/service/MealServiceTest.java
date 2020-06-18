@@ -18,7 +18,9 @@ abstract public class MealServiceTest extends ServiceTest{
 
     @Autowired
     private MealService service;
+//    https://stackoverflow.com/questions/21323309/intellij-idea-shows-errors-when-using-springs-autowired-annotation
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private MealRepository repository;
 
     @Test
