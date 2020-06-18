@@ -36,6 +36,8 @@ public class UserService {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
+    public User getWithMeals(int id){return checkNotFoundWithId(repository.get(id), id);}
+
     public User getByEmail(String email) {
         Assert.notNull(email, "email must not be null");
         return checkNotFound(repository.getByEmail(email), "email=" + email);

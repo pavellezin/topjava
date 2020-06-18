@@ -17,7 +17,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 abstract public class MealServiceTest extends ServiceTest{
 
     @Autowired
-    private MealService service;
+    protected MealService service;
 //    https://stackoverflow.com/questions/21323309/intellij-idea-shows-errors-when-using-springs-autowired-annotation
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
