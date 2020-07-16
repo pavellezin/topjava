@@ -11,8 +11,8 @@
 
 <section>
     <h3><spring:message code="meal.title"/></h3>
-    <form method="get" action="meals">
-        <input type="hidden" name="action" value="filter">
+    <form method="get" action="meals/filter">
+        <%--        <input type="hidden" name="action" value="filter">--%>
         <dl>
             <dt><spring:message code="filter.fromdate"/>:</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -32,7 +32,7 @@
         <button type="submit"><spring:message code="button.submit"/></button>
     </form>
     <hr/>
-    <a href="meals?action=create"><spring:message code="meal.add"/></a>
+    <a href="meals/create"><spring:message code="meal.add"/></a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -48,15 +48,12 @@
             <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>
             <tr data-mealExcess="${meal.excess}">
                 <td>
-                        <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
-                        <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
-                        <%--${fn:replace(meal.dateTime, 'T', ' ')}--%>
                         ${fn:formatDateTime(meal.dateTime)}
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="meals?action=update&id=${meal.id}"><spring:message code="meal.update"/></a></td>
-                <td><a href="meals?action=delete&id=${meal.id}"><spring:message code="meal.delete"/></a></td>
+                <td><a href="meals/update?id=${meal.id}"><spring:message code="meal.update"/></a></td>
+                <td><a href="meals/delete?id=${meal.id}"><spring:message code="meal.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
