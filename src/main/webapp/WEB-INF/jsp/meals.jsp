@@ -14,22 +14,22 @@
     <form method="get" action="meals">
         <input type="hidden" name="action" value="filter">
         <dl>
-            <dt><spring:message code="filter.fromdate"/></dt>
+            <dt><spring:message code="filter.fromdate"/>:</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
         </dl>
         <dl>
-            <dt><spring:message code="filter.todate"/></dt>
+            <dt><spring:message code="filter.todate"/>:</dt>
             <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
         </dl>
         <dl>
-            <dt><spring:message code="filter.fromtime"/></dt>
+            <dt><spring:message code="filter.fromtime"/>:</dt>
             <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
         </dl>
         <dl>
-            <dt><spring:message code="filter.totime"/></dt>
+            <dt><spring:message code="filter.totime"/>:</dt>
             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
         </dl>
-        <button type="submit"><spring:message code="filter.submit"/></button>
+        <button type="submit"><spring:message code="button.submit"/></button>
     </form>
     <hr/>
     <a href="meals?action=create"><spring:message code="meal.add"/></a>
