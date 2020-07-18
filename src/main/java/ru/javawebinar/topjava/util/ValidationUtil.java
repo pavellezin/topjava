@@ -2,11 +2,23 @@ package ru.javawebinar.topjava.util;
 
 
 import ru.javawebinar.topjava.model.AbstractBaseEntity;
+import ru.javawebinar.topjava.model.Role;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+
+import javax.validation.*;
+import java.util.Set;
 
 public class ValidationUtil {
 
     private ValidationUtil() {
+    }
+
+    private static Validator validator;
+
+    static {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
     }
 
     public static <T> T checkNotFoundWithId(T object, int id) {
@@ -53,5 +65,13 @@ public class ValidationUtil {
             result = cause;
         }
         return result;
+    }
+
+    public static void jdbcValidator() {
+        User user = new User(null, " ", "mail@yandex.ru", "password", Role.ROLE_USER);
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
     }
 }

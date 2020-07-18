@@ -11,6 +11,7 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.JpaUtil;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.ValidationUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
@@ -95,6 +96,12 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     public void getAll() throws Exception {
         List<User> all = service.getAll();
         USER_MATCHER.assertMatch(all, ADMIN, USER);
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void createWithExceptionJdbc() throws Exception {
+        Assume.assumeFalse(!isJdbcProfile());
+        if (isJdbcProfile()) ValidationUtil.jdbcValidator();
     }
 
     @Test
