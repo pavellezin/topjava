@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.sql.ResultSet;
 import java.util.*;
@@ -41,19 +42,23 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     @Transactional
     public User save(User user) {
+        ValidationUtil.validateJdbc(user);
+
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
 
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(parameterSource);
             user.setId(newKey.intValue());
             addRoles(user);
-        } else if (namedParameterJdbcTemplate.update(
-                "UPDATE users SET name=:name, email=:email, password=:password, " +
-                        "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", parameterSource) == 0) {
-            return null;
+        } else {
+            if (namedParameterJdbcTemplate.update(
+                    "UPDATE users SET name=:name, email=:email, password=:password, " +
+                            "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", parameterSource) == 0) {
+                return null;
+            }
+            dropRoles(user);
+            addRoles(user);
         }
-        dropRoles(user);
-        addRoles(user);
         return user;
     }
 
@@ -66,14 +71,13 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public User get(int id) {
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id);
-        return setRoles(DataAccessUtils.singleResult(users));
+        return setRoles(users);
     }
 
     @Override
     public User getByEmail(String email) {
-//        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
-        return setRoles(DataAccessUtils.singleResult(users));
+        return setRoles(users);
     }
 
     @Override
@@ -105,7 +109,8 @@ public class JdbcUserRepository implements UserRepository {
         jdbcTemplate.update("DELETE FROM user_roles WHERE user_id=?", user.getId());
     }
 
-    private User setRoles(User user) {
+    private User setRoles(List<User> users) {
+        User user = DataAccessUtils.singleResult(users);
         if (user != null) {
             List<Role> roles = jdbcTemplate.queryForList("SELECT role FROM user_roles  WHERE user_id=?", Role.class, user.getId());
             user.setRoles(roles);

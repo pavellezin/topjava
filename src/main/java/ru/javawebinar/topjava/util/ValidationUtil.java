@@ -67,9 +67,8 @@ public class ValidationUtil {
         return result;
     }
 
-    public static void jdbcValidator() {
-        User user = new User(null, " ", "mail@yandex.ru", "password", Role.ROLE_USER);
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
+    public static<T> void validateJdbc(T bean) {
+        Set<ConstraintViolation<T>> violations = validator.validate(bean);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
