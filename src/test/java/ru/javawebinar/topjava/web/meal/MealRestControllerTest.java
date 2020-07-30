@@ -91,4 +91,22 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(MEAL_TO_MATCHER.contentJson(createTo(MEAL3, false), createTo(MEAL2, false), createTo(MEAL1, false)))
         ;
     }
+
+    @Test
+    void filter() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDate=2020-01-01&endDate=2020-01-30&startTime=00:00&endTime=23:59"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(MEAL_TO_MATCHER.contentJson(createTo(MEAL3, false), createTo(MEAL2, false), createTo(MEAL1, false)))
+        ;
+    }
+
+    @Test
+    void filterNullable() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDate=&endDate=&startTime=15:00"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(MEAL_TO_MATCHER.contentJson(createTo(MEAL7, true), createTo(MEAL3, false)))
+        ;
+    }
 }
