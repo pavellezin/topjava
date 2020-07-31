@@ -5,8 +5,8 @@
         <con:settings/>
         <con:definitionCache/>
         <con:endpoints>
-            <con:endpoint>http://localhost:8080</con:endpoint>
-        </con:endpoints>
+            <con:endpoint>http://Lezin:8089/</con:endpoint>
+        <con:endpoint>http://localhost:8080</con:endpoint></con:endpoints>
         <con:resource name="" path="/topjava/rest/admin/users" id="6da03be8-b9dc-43d8-a333-3253fa8d4dad">
             <con:settings/>
             <con:parameters/>
@@ -328,7 +328,7 @@
                 </con:representation>
                 <con:representation type="FAULT">
                     <con:mediaType>text/html;charset=utf-8</con:mediaType>
-                    <con:status>500</con:status>
+                    <con:status>500 400</con:status>
                     <con:params/>
                     <con:element>html</con:element>
                 </con:representation>
@@ -360,7 +360,7 @@
                 </con:request>
             </con:method>
         <con:method name="Between" id="036de483-98a4-456d-b462-7baf1dfad1a2" method="GET"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:request name="GetBetween" id="bd288170-f2a6-4474-bb3e-60bdfaab8d4a" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://localhost/topjava/rest/profile/meals/between</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource>
-    </con:interface>
+    <con:resource name="filter" path="/topjava/rest/profile/meals/filter" id="31505bd5-e746-44e5-8d45-cefa8856f135"><con:settings/><con:parameters><con:parameter><con:name>startDate</con:name><con:value>2020-01-01</con:value><con:style>QUERY</con:style><con:default>2020-01-01</con:default></con:parameter><con:parameter><con:name>endDate</con:name><con:value>2020-01-31</con:value><con:style>QUERY</con:style><con:default>2020-01-31</con:default></con:parameter><con:parameter><con:name>startTime</con:name><con:value>00:00</con:value><con:style>QUERY</con:style><con:default>00:00</con:default></con:parameter><con:parameter><con:name>endTime</con:name><con:value>13:00</con:value><con:style>QUERY</con:style><con:default>13:00</con:default></con:parameter></con:parameters><con:method name="Filter" id="fc56e0d1-5e5d-4d1c-88ff-e2832a49648c" method="GET"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>text/html; charset=iso-8859-1</con:mediaType><con:status>200</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:request name="getFiltered" id="d0df0a42-1e86-49e0-9ede-b07b2dbe8e18" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://Lezin/topjava/rest/profile/meals/filter</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="" id="f444a768-c217-4a26-b3c2-0f3e933cd23f" method="DELETE"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>text/html; charset=iso-8859-1</con:mediaType><con:status>200</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="FAULT"><con:mediaType>text/html;charset=utf-8</con:mediaType><con:status>400</con:status><con:params/><con:element>html</con:element></con:representation><con:request name="Delete" id="3c38bbf9-d8ce-4d4c-9c50-e335e6bd50ff" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://Lezin/topjava/rest/profile/meals/filter</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface>
     <con:properties/>
     <con:wssContainer/>
     <con:oAuth2ProfileContainer/>

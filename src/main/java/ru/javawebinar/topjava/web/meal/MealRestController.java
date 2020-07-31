@@ -62,13 +62,21 @@ public class MealRestController extends AbstractMealController {
         return super.getBetween(startDateTime.toLocalDate(), startDateTime.toLocalTime(), endDateTime.toLocalDate(), endDateTime.toLocalTime());
     }
 
-//    https://www.baeldung.com/spring-date-parameters
+    //    https://www.baeldung.com/spring-date-parameters
+//    @GetMapping(value = "/filter")
+//    public List<MealTo> filter(
+//            @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+//            @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+//            @RequestParam @Nullable @DateTimeFormat(pattern = "HH:mm") LocalTime startTime,
+//            @RequestParam @Nullable @DateTimeFormat(pattern = "HH:mm") LocalTime endTime) {
+//        return super.getBetween(startDate, startTime, endDate, endTime);
+//    }
     @GetMapping(value = "/filter")
     public List<MealTo> filter(
-            @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam @Nullable @DateTimeFormat(pattern = "HH:mm") LocalTime startTime,
-            @RequestParam @Nullable @DateTimeFormat(pattern = "HH:mm") LocalTime endTime) {
+            @RequestParam @Nullable LocalDate startDate,
+            @RequestParam @Nullable LocalDate endDate,
+            @RequestParam @Nullable LocalTime startTime,
+            @RequestParam @Nullable LocalTime endTime) {
         return super.getBetween(startDate, startTime, endDate, endTime);
     }
 }
