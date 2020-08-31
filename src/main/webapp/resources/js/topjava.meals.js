@@ -1,10 +1,10 @@
 // var filter = $("#filter-form").serialize();
 function applyFilter(){
-        var dataSet = $("#filter-form").serialize();
+        // var dataSet = $("#filter-form").serialize();
         $.ajax({
             type: "GET",
             url: "ajax/profile/meals/filter",
-            data: dataSet
+            data: $("form#filter-form").serialize()
             // ,success: updateTable()
         }).done(function () {
             updateTable();

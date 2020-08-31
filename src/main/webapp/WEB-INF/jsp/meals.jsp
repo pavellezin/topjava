@@ -33,9 +33,9 @@
                 </tr>
             </table>
             </br>
-            <button type="submit" class="btn btn-outline-primary" onclick="applyFilter()">
+            <button type="button" class="btn btn-outline-primary" onclick="applyFilter()">
                 <span class="fa fa-filter"></span><spring:message code="meal.filter"/></button>
-            <button type="reset" class="btn btn-outline-secondary" onclick="clear()">
+            <button class="btn btn-outline-secondary" onclick="clear()">
                 <span class="fa fa-minus-circle"></span><spring:message code="meal.clear"/></button>
         </form>
         <hr>
