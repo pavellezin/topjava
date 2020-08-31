@@ -4,7 +4,8 @@ $(function () {
             ajaxUrl: "ajax/profile/meals/",
             datatableApi: $("#datatable").DataTable({
                 "paging": false,
-                "info": true,
+                "info": false,
+                "searching":false,
                 "columns": [
                     {
                         "data": "dateTime"
