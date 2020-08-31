@@ -16,14 +16,14 @@ function makeEditable(ctx) {
     // solve problem with cache in IE: https://stackoverflow.com/a/4303862/548473
     $.ajaxSetup({cache: false});
 }
-function clear() {
+function clearFilter() {
     // $("form#filter-form").trigger('reset');
-    $("#filter-form")[0].reset();
-    // $(':input','#filter-form')
-    //     .not(':button, :submit, :reset, :hidden')
-    //     .val('')
-    //     .removeAttr('checked')
-    //     .removeAttr('selected');
+    // $("#filter-form")[0].reset();
+    $(':input','#filter-form')
+        .not(':button, :submit, :reset, :hidden')
+        .val('')
+        .removeAttr('checked')
+        .removeAttr('selected');
     updateTable();
 }
 

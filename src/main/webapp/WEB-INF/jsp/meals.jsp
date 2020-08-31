@@ -35,7 +35,7 @@
             </br>
             <button type="button" class="btn btn-outline-primary" onclick="applyFilter()">
                 <span class="fa fa-filter"></span><spring:message code="meal.filter"/></button>
-            <button class="btn btn-outline-secondary" onclick="clear()">
+            <button class="btn btn-outline-secondary" onclick="clearFilter()">
                 <span class="fa fa-minus-circle"></span><spring:message code="meal.clear"/></button>
         </form>
         <hr>
