@@ -13,31 +13,34 @@
     <div class="container">
         <h3><spring:message code="meal.title"/></h3>
 
-        <form method="get" action="meals/filter">
-            <dl>
-                <dt><spring:message code="meal.startDate"/>:</dt>
-                <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
-            </dl>
-            <dl>
-                <dt><spring:message code="meal.endDate"/>:</dt>
-                <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
-            </dl>
-            <dl>
-                <dt><spring:message code="meal.startTime"/>:</dt>
-                <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
-            </dl>
-            <dl>
-                <dt><spring:message code="meal.endTime"/>:</dt>
-                <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
-            </dl>
-            <button type="submit" class="btn btn-outline-primary"><spring:message code="meal.filter"/></button>
+        <form id="filter-form">
+            <table border="0">
+                <tr>
+                    <td><label for="startDate"><spring:message code="meal.startDate"/></label>:</td>
+                    <td><input type="date" name="startDate" id="startDate" value="${param.startDate}"></td>
+                </tr>
+                <tr>
+                    <td><label for="endDate"><spring:message code="meal.endDate"/></label>:</td>
+                    <td><input type="date" name="endDate" id="endDate" value="${param.endDate}"></td>
+                </tr>
+                <tr>
+                    <td><label for="startTime"><spring:message code="meal.startTime"/></label>:</td>
+                    <td><input type="time" name="startTime" id="startTime" value="${param.startTime}"></td>
+                </tr>
+                <tr>
+                    <td><label for="endTime"><spring:message code="meal.endTime"/></label>:</td>
+                    <td><input type="time" name="endTime" id="endTime" value="${param.endTime}"></td>
+                </tr>
+            </table>
+            </br>
+            <button type="submit" class="btn btn-outline-primary" onclick="applyFilter()">
+                <span class="fa fa-filter"></span><spring:message code="meal.filter"/></button>
+            <button type="reset" class="btn btn-outline-secondary" onclick="clear()">
+                <span class="fa fa-minus-circle"></span><spring:message code="meal.clear"/></button>
         </form>
         <hr>
-        <button class="btn btn-primary" onclick="add()">
-            <span class="fa fa-plus"></span>
-            <spring:message code="common.add"/>
-        </button>
-        <%--    <a href="meals/create"><spring:message code="meal.add"/></a>--%>
+        <button class="btn btn-primary" onclick="add()"><span class="fa fa-plus"></span><spring:message
+                code="common.add"/></button>
         <hr>
         <table class="table table-striped" id="datatable">
             <thead>

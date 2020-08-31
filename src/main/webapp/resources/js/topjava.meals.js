@@ -1,4 +1,16 @@
-// $(document).ready(function () {
+// var filter = $("#filter-form").serialize();
+function applyFilter(){
+        var dataSet = $("#filter-form").serialize();
+        $.ajax({
+            type: "GET",
+            url: "ajax/profile/meals/filter",
+            data: dataSet
+            // ,success: updateTable()
+        }).done(function () {
+            updateTable();
+            successNoty("Updated");
+        });
+}
 $(function () {
     makeEditable({
             ajaxUrl: "ajax/profile/meals/",
