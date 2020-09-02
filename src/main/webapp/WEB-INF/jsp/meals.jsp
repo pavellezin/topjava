@@ -33,7 +33,7 @@
                 </tr>
             </table>
             </br>
-            <button type="button" class="btn btn-outline-primary" onclick="applyFilter()">
+            <button type="button" class="btn btn-outline-primary" onclick="updateFilteredTable()">
                 <span class="fa fa-filter"></span><spring:message code="meal.filter"/></button>
             <button class="btn btn-outline-secondary" onclick="clearFilter()">
                 <span class="fa fa-minus-circle"></span><spring:message code="meal.clear"/></button>

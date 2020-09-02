@@ -1,23 +1,18 @@
-// var filter = $("#filter-form").serialize();
-function applyFilter(){
-        // var dataSet = $("#filter-form").serialize();
-        $.ajax({
-            type: "GET",
-            url: "ajax/profile/meals/filter",
-            data: $("form#filter-form").serialize()
-            // ,success: updateTable()
-        }).done(function () {
-            updateTable();
-            successNoty("Updated");
-        });
+function updateFilteredTable() {
+    $.ajax({
+        type: "GET",
+        url: "ajax/profile/meals/filter",
+        data: $("#filter-form").serialize()
+    }).done(updateTableByData);
 }
+
 $(function () {
     makeEditable({
             ajaxUrl: "ajax/profile/meals/",
             datatableApi: $("#datatable").DataTable({
                 "paging": false,
                 "info": false,
-                "searching":false,
+                "searching": false,
                 "columns": [
                     {
                         "data": "dateTime"
@@ -43,7 +38,7 @@ $(function () {
                         "desc"
                     ]
                 ]
-            })
+            }), updateTable: updateFilteredTable
         }
     );
 });
