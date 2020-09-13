@@ -28,7 +28,7 @@ $(function () {
             "paging": false,
             "info": true,
             createdRow: function (row, data, index) {
-                    $(row).attr("data-mealExcess", data.excess)
+                $(row).attr("data-mealExcess", data.excess)
             },
             "columns": [
                 {
@@ -66,4 +66,24 @@ $(function () {
         }),
         updateTable: updateFilteredTable
     });
+});
+
+$('#dateTime').datetimepicker({
+    format: 'Y-m-d H:i'
+});
+$('#startDate').datetimepicker({
+    timepicker: false,
+    format: 'Y-m-d'
+});
+$('#endDate').datetimepicker({
+    timepicker: false,
+    format: 'Y-m-d'
+});
+$('#startTime').datetimepicker({
+    datepicker: false,
+    format: 'H:i'
+});
+$('#endTime').datetimepicker({
+    datepicker: false,
+    format: 'H:i'
 });
