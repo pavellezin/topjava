@@ -10,12 +10,12 @@ public class MealTo extends BaseTo {
 
     private final String description;
 
-    private final Integer calories;
+    private final int calories;
 
     private final boolean excess;
 
     @ConstructorProperties({"id", "dateTime", "description", "calories", "excess"})
-    public MealTo(Integer id, LocalDateTime dateTime, String description, Integer calories, boolean excess) {
+    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
@@ -31,7 +31,7 @@ public class MealTo extends BaseTo {
         return description;
     }
 
-    public Integer getCalories() {
+    public int getCalories() {
         return calories;
     }
 
@@ -44,7 +44,7 @@ public class MealTo extends BaseTo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MealTo that = (MealTo) o;
-        return calories.equals(that.calories) &&
+        return calories == that.calories &&
                 excess == that.excess &&
                 Objects.equals(id, that.id) &&
                 Objects.equals(dateTime, that.dateTime) &&
