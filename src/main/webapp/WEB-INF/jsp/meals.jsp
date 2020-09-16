@@ -19,19 +19,19 @@
                     <div class="row">
                         <div class="col-3">
                             <label for="startDate"><spring:message code="meal.startDate"/></label>
-                            <input class="form-control" type="text" name="startDate" id="startDate">
+                            <input class="form-control" type="text" name="startDate" id="startDate" autocomplete="off">
                         </div>
                         <div class="col-3">
                             <label for="endDate"><spring:message code="meal.endDate"/></label>
-                            <input class="form-control" type="text" name="endDate" id="endDate">
+                            <input class="form-control" type="text" name="endDate" id="endDate" autocomplete="off">
                         </div>
                         <div class="offset-2 col-2">
                             <label for="startTime"><spring:message code="meal.startTime"/></label>
-                            <input class="form-control" type="text" name="startTime" id="startTime">
+                            <input class="form-control" type="text" name="startTime" id="startTime" autocomplete="off">
                         </div>
                         <div class="col-2">
                             <label for="endTime"><spring:message code="meal.endTime"/></label>
-                            <input class="form-control" type="text" name="endTime" id="endTime">
+                            <input class="form-control" type="text" name="endTime" id="endTime" autocomplete="off">
                         </div>
                     </div>
                 </form>
@@ -79,7 +79,7 @@
                     <div class="form-group">
                         <label for="dateTime" class="col-form-label"><spring:message code="meal.dateTime"/></label>
                         <input type="text" class="form-control" id="dateTime" name="dateTime"
-                               placeholder="<spring:message code="meal.dateTime"/>">
+                               placeholder="<spring:message code="meal.dateTime"/>" autocomplete="off">
                     </div>
 
                     <div class="form-group">

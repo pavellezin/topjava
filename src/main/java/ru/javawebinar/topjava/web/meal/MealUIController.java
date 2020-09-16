@@ -16,17 +16,18 @@ import java.util.List;
 import java.util.StringJoiner;
 
 @RestController
-@RequestMapping("/ajax/profile/meals")
+@RequestMapping(path = "/ajax/profile/meals",
+        produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealUIController extends AbstractMealController {
 
     @Override
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<MealTo> getAll() {
         return super.getAll();
     }
 
     @Override
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public Meal get(@PathVariable int id) {
         return super.get(id);
     }
