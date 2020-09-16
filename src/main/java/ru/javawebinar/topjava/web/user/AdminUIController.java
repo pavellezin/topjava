@@ -10,7 +10,8 @@ import ru.javawebinar.topjava.to.UserTo;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.StringJoiner;
+
+import static ru.javawebinar.topjava.util.ValidationUtil.postNotyErrorsResponse;
 
 @RestController
 @RequestMapping("/ajax/admin/users")
@@ -38,11 +39,7 @@ public class AdminUIController extends AbstractUserController {
     @PostMapping
     public ResponseEntity<String> createOrUpdate(@Valid UserTo userTo, BindingResult result) {
         if (result.hasErrors()) {
-            StringJoiner joiner = new StringJoiner("<br>");
-            result.getFieldErrors().forEach(
-                    fe -> joiner.add(String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
-            );
-            return ResponseEntity.unprocessableEntity().body(joiner.toString());
+            return postNotyErrorsResponse(result);
         }
         if (userTo.isNew()) {
             super.create(userTo);
