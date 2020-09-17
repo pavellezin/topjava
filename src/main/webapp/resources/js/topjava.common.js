@@ -48,11 +48,11 @@ function updateTableByData(data) {
 }
 
 function save() {
-    var myJSONData = form.serialize();
+    formatToISO(form)
     $.ajax({
         type: "POST",
         url: context.ajaxUrl,
-        data: toISOConverter(myJSONData)
+        data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
         context.updateTable();
@@ -67,6 +67,9 @@ function closeNoty() {
         failedNote.close();
         failedNote = undefined;
     }
+}
+function formatToISO(form) {
+    form[0]["dateTime"].value = form[0]["dateTime"].value.replace(' ', 'T');
 }
 
 function successNoty(key) {
@@ -98,13 +101,4 @@ function renderDeleteBtn(data, type, row) {
     if (type === "display") {
         return "<a onclick='deleteRow(" + row.id + ");'><span class='fa fa-remove'></span></a>";
     }
-}
-
-function toISOConverter(data) {
-    var ISODate;
-    let regexp = /(\d{4})-(\d{2})-(\d{2})%20(\d{2})%3A(\d{2})/;
-    let formDate = data.match(regexp)[0];
-    ISODate = formDate.substring(0, 10) + "T" + formDate.substring(13, 15) + ":" + formDate.substring(18, 20);
-    // debugger;
-    return data.replace(regexp, ISODate);
 }
