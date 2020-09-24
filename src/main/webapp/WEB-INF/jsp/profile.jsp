@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="topjava" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -14,8 +15,12 @@
         <%--@elvariable id="userTo" type="ru.javawebinar.topjava.to.UserTo"--%>
         <div class="row">
             <div class="col-5 offset-3">
+                <c:if test="${duplicate}">
+                    <div class="error"><spring:message code="app.duplicate"/></div>
+                </c:if>
                 <h3>${userTo.name} <spring:message code="${register ? 'app.register' : 'app.profile'}"/></h3>
-                <form:form class="form-group" modelAttribute="userTo" method="post" action="${register ? 'profile/register' : 'profile'}"
+                <form:form class="form-group" modelAttribute="userTo" method="post"
+                           action="${register ? 'profile/register' : 'profile'}"
                            charset="utf-8" accept-charset="UTF-8">
 
                     <topjava:inputField labelCode="user.name" name="name"/>
