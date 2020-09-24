@@ -74,13 +74,17 @@ function save() {
     });
 }
 
-var failedNote;
+var failedNote, myAlert;
 
 function closeNoty() {
-    if (failedNote) {
-        failedNote.close();
-        failedNote = undefined;
+    if (myAlert) {
+        myAlert.hide();
+        myAlert = undefined;
     }
+}
+
+function closeAlert() {
+    $(this).closest("." + $(this).attr("data-hide")).hide();
 }
 
 function successNoty(key) {
@@ -96,11 +100,15 @@ function successNoty(key) {
 function failNoty(jqXHR) {
     closeNoty();
     var errorInfo = JSON.parse(jqXHR.responseText);
-    failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"] + ": " + jqXHR.status + "<br>" + errorInfo.type + "<br>" + errorInfo.detail,
-        type: "error",
-        layout: "bottomRight"
-    }).show();
+    if (errorInfo.type === "DATA_ERROR") {
+        $('.alert').show();
+    } else {
+        failedNote = new Noty({
+            text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"] + ": " + jqXHR.status + "<br>" + errorInfo.type + "<br>" + errorInfo.detail,
+            type: "error",
+            layout: "bottomRight"
+        }).show();
+    }
 }
 
 function renderEditBtn(data, type, row) {
