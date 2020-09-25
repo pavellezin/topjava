@@ -84,7 +84,8 @@ function closeNoty() {
 }
 
 function closeAlert() {
-    $(this).closest("." + $(this).attr("data-hide")).hide();
+    // $(this).closest("." + $(this).attr("data-hide")).hide();
+    $('.alert').hide();
 }
 
 function successNoty(key) {
