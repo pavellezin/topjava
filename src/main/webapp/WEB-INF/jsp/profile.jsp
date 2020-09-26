@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-5 offset-3">
                 <c:if test="${duplicate}">
-                    <div class="error"><spring:message code="app.duplicate"/></div>
+                    <div class="error"><spring:message code="app.user.duplicate"/></div>
                 </c:if>
                 <h3>${userTo.name} <spring:message code="${register ? 'app.register' : 'app.profile'}"/></h3>
                 <form:form class="form-group" modelAttribute="userTo" method="post"

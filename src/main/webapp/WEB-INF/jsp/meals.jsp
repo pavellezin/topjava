@@ -73,6 +73,10 @@
                 <h4 class="modal-title" id="modalTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
+            <div class="alert alert-danger" role="alert">
+                <spring:message code="app.meal.duplicate"/>
+                <button type="button" class="close" data-hide="alert" onclick="closeAlert()">&times;</button>
+            </div>
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
