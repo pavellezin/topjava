@@ -55,7 +55,6 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
-                .andDo(print())
                 .andExpect(status().isCreated());
 
         User created = readFromJson(action, User.class);
