@@ -22,6 +22,8 @@ import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.util.exception.ErrorType.*;
@@ -78,18 +80,19 @@ public class ExceptionInfoHandler {
     private static String collectErrorInfo(Exception e) {
         String delimiter = e instanceof BindException ? "</br>" : "; ";
         BindingResult result = e instanceof BindException ? ((BindException) e).getBindingResult() : ((MethodArgumentNotValidException) e).getBindingResult();
-        String details = result.getFieldErrors().stream()
+        return result.getFieldErrors().stream()
                 .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
                 .collect(Collectors.joining(delimiter));
-        return details;
     }
 
     private static String duplicateMessage(HttpServletRequest req) {
-        String url = req.getRequestURL().toString();
-        String identifier = url.substring(url.lastIndexOf("/") + 1);
+        String url = Arrays.stream(req.getRequestURL().toString().split("/"))
+                .reduce((a, b) -> b)
+                .orElse(null);
         String detailMessage;
-        switch (identifier) {
+        switch (Objects.requireNonNull(url)) {
             case "users":
+            case "register":
                 detailMessage = "User with this email already exists";
                 break;
             case "meals":
