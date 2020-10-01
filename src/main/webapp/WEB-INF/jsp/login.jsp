@@ -25,7 +25,6 @@
                 <button type="submit" class="btn btn-lg btn-primary" onclick="login('admin@gmail.com', 'admin')">
                     <spring:message code="app.login"/> Admin
                 </button>
-                <a href="login?lang=en">en</a>|<a href="login?lang=ru">ru</a>
             </div>
         </sec:authorize>
         <div class="lead py-4"><spring:message code="app.stackTitle"/> <br>
