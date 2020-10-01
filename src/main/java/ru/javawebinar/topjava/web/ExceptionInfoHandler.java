@@ -22,8 +22,14 @@ import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.util.exception.ErrorType.*;
@@ -42,7 +48,7 @@ public class ExceptionInfoHandler {
 
     @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
+    public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) throws MalformedURLException {
         return logAndGetErrorInfo(req, e, true, DATA_ERROR, duplicateMessage(req));
     }
 
@@ -85,23 +91,32 @@ public class ExceptionInfoHandler {
                 .collect(Collectors.joining(delimiter));
     }
 
-    private static String duplicateMessage(HttpServletRequest req) {
+    private static String duplicateMessage(HttpServletRequest req) throws MalformedURLException {
         String url = Arrays.stream(req.getRequestURL().toString().split("/"))
                 .reduce((a, b) -> b)
                 .orElse(null);
         String detailMessage;
+        ResourceBundle rb = getResourceBundle();
         switch (Objects.requireNonNull(url)) {
             case "users":
             case "register":
-                detailMessage = "User with this email already exists";
+                detailMessage = rb.getString("app.user.duplicate");
                 break;
             case "meals":
-                detailMessage = "Meal with this time already exists";
+                detailMessage = rb.getString("app.meal.duplicate");
                 break;
             default:
                 detailMessage = "Duplicate items";
                 break;
         }
         return detailMessage;
+    }
+
+    private static ResourceBundle getResourceBundle() throws MalformedURLException {
+        String path = System.getenv("TOPJAVA_ROOT") + File.separator + "config" + File.separator + "messages";
+        File file = new File(path);
+        URL[] urls = {file.toURI().toURL()};
+        ClassLoader loader = new URLClassLoader(urls);
+        return ResourceBundle.getBundle("app", Locale.getDefault(), loader);
     }
 }
