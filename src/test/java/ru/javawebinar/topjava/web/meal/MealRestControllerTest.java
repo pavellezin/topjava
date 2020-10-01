@@ -122,7 +122,7 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.type").value(ErrorType.DATA_ERROR.name()))
-                .andExpect(content().string(containsString("Meal with this time already exists")));
+                .andExpect(content().string(containsString("Meal already exist")));
     }
 
     @Test

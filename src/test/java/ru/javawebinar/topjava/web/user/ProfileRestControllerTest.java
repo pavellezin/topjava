@@ -92,7 +92,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.type").value(ErrorType.DATA_ERROR.name()))
-                .andExpect(content().string(containsString("User with this email already exist")));
+                .andExpect(content().string(containsString("User already exist")));
     }
 
     @Test
