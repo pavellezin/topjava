@@ -11,14 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.javawebinar.topjava.AllActiveProfileResolver;
-import ru.javawebinar.topjava.TestUtil;
 
 import javax.annotation.PostConstruct;
-
-import java.io.File;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
@@ -34,17 +29,10 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 abstract public class AbstractControllerTest {
 
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
-    private static final Map<String, String> ENV = new HashMap<>();
 
     static {
         CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");
         CHARACTER_ENCODING_FILTER.setForceEncoding(true);
-        ENV.put("TOPJAVA_ROOT", "D:" + File.separator + "project" + File.separator + "topjava");
-        try {
-            TestUtil.setEnv(ENV);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         Locale.setDefault(new Locale("en", "EN"));
     }
 
