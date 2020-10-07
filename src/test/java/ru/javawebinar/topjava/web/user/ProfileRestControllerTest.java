@@ -102,7 +102,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER))
                 .content(JsonUtil.writeValue(updatedTo)))
-                .andExpect(status().isConflict())
+                .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(VALIDATION_ERROR))
                 .andExpect(detailMessage(EXCEPTION_DUPLICATE_EMAIL))
                 .andDo(print());
