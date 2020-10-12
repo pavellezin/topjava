@@ -15,6 +15,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -183,5 +185,18 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isConflict())
                 .andExpect(errorType(VALIDATION_ERROR))
                 .andExpect(detailMessage(EXCEPTION_DUPLICATE_DATETIME));
+    }
+
+    @Test
+    void updateHtmlUnsafe() throws Exception {
+        Meal invalid = new Meal(MEAL1_ID, LocalDateTime.now(), "<script>alert(123)</script>", 200);
+        perform(MockMvcRequestBuilders.put(REST_URL + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(USER)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(VALIDATION_ERROR))
+                .andDo(print());
     }
 }
